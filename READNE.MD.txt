@@ -1,0 +1,78 @@
+# Securing an Apache Web Server on Ubuntu
+
+## Overview
+This project demonstrates how to secure an Apache web server on an Ubuntu system. It covers essential security configurations such as updating packages, configuring firewalls, enabling SSL/TLS, restricting directory access, and disabling unnecessary modules.
+
+## System Information
+- **Operating System:** Ubuntu (running in VirtualBox)
+- **Web Server:** Apache
+- **Objective:** Enhance Apache security and protect it from common vulnerabilities.
+
+## Steps Implemented
+1. **Updating System Packages**  
+   - Ensured the system is up-to-date with security patches.  
+   - Command:  
+    
+     sudo apt update && sudo apt upgrade -y
+     
+2. **Installing Apache Web Server**  
+   - Installed and started Apache.  
+   - Commands:  
+    
+     sudo apt install apache2 -y
+     sudo systemctl enable apache2
+     sudo systemctl start apache2
+     
+3. **Verifying Apache Installation**  
+   - Accessed `http://127.0.0.1` in a browser to confirm the installation.  
+
+4. **Configuring Firewall (UFW)**  
+   - Allowed HTTP and HTTPS traffic.  
+   - Commands:  
+    
+     sudo ufw allow 'Apache Full'
+     sudo ufw enable
+     sudo ufw status
+     
+
+5. **Enabling SSL/TLS**  
+   - Installed Certbot for SSL/TLS encryption.  
+   - Commands:  
+    
+     sudo apt install certbot python3-certbot-apache -y
+     sudo certbot --apache
+
+6. **Restricting Directory Access**  
+   - Disabled directory listing and restricted access to sensitive files.  
+   - Commands:  
+     sudo nano /etc/apache2/apache2.conf
+    
+   - Modified:  
+   
+     <Directory /var/www/>
+         Options -Indexes
+     </Directory>
+    
+   - Applied changes:  
+     bash
+     sudo systemctl restart apache2
+     
+7. **Disabling Unnecessary Modules**  
+   - Reduced attack surface by disabling unused modules.  
+   - Commands:  
+     
+     sudo a2dismod status
+     sudo systemctl restart apache2
+     
+8. **Monitoring Logs for Security Insights**  
+   - Access Log:  
+     
+     sudo tail -f /var/log/apache2/access.log
+   - Error Log:  
+     
+     sudo tail -f /var/log/apache2/error.log
+   - Search for specific errors:  
+    
+     sudo grep "error" /var/log/apache2/error.log
+     
+
